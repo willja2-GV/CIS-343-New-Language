@@ -1,0 +1,4 @@
+// Test Comment
+var greeting = "hello";
+print greeting;
+123 + 45.67 != 0;

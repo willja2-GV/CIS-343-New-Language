@@ -1,13 +1,15 @@
 import sys
 from errors import error_handling
+from scanner import scanner
 
 #basic shape of interpreter
 class Tempython:
 
     #echo code in file and error
     def run(self, source):
-        print(source)
-        raise NotImplementedError("Scanner Not Implemented")
+        error_handling.error_present = False
+        for token in scanner(source).scanTokens():
+            print(token)
 
     #convert to string and call run function
     def run_file(self, path):
@@ -22,10 +24,9 @@ class Tempython:
         while True:
             try:
                 line = input("> ")
-            except (KeyboardInterrupt):
+            except (KeyboardInterrupt, EOFError):
                 return
             self.run(line)
-            raise NotImplementedError("Scanner Not Implemented")
         
 #correct usage or call correct function based upon input.
 def main():

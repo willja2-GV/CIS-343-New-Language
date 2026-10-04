@@ -9,5 +9,5 @@ class error_handling:
 
     @staticmethod
     def report(line, where, message): 
-        print("[line " + line + "] Error" + where + ": " + message)
+        print(f"[line {line}] Error{where}: {message}")
         error_handling.error_present = True

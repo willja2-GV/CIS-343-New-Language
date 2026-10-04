@@ -1,0 +1,29 @@
+Language name:
+    Tempython
+
+Regular expressions:
+    Number: ^[0-9]+(?:[.][0-9]+)?$
+    String: ^"[A-Za-z0-9(){}.,_\-+;*!<>=/\s]*"$
+    Identifiers: ^(?!(?:and|class|else|false|for|fun|if|nil|or|print|return|super|this|true|var|while)$)[A-Za-z_][A-Za-z0-9_]*$
+    Design: This submission sticks as closely as possible the basix lox implementations. 
+
+Dependency/Setup: Running the tempython.py with the run python button puts the user into interactive mode. The user can then
+    type into terminal to receive output. Running from a source-file can be done with python src/tempython.py src/scanner.tempython. Here src/scanner.tempython is the default test file. Reproducing the test cases can be done by hitting the run python from lab1.py file. 
+
+Test cases: 
+    testindividualtokentype: This test takes '(){},.-+;*' as tokens checks to see if the scanner identifies its token type correctly. The unittest passes, so the output is identified correctly in the scanner.
+    testgroupedtokentype: This test takes '! != = == < <= > >= /' as tokens checks to see if the scanner identifies its token type correctly. The unittest passes, so the output is identified correctly in the scanner.
+    testgliteraltype: This test takes 'a b ab ands and class else false for fun if nil or print return super this true var while "and" 1 12 12.0' as tokens checks to see if the scanner identifies its token type correctly. It also test for incorrectly identifying substrings The unittest passes, so the output is identified correctly in the scanner.
+    teststringerror: This test takes 'a"' as input and checks to see if the unterminated string is identified and reported. It gives the correct output of [line 1] Error: Unterminated string.\n.
+    testcharactererror: This test takes '@' as input and checks to see if the unexpected character is identified and reported. It gives the correct output of [line 1] Error: Unexpected character.\n.
+    testerrorcheckingline: This test takes '\n @' as input and checks to see if the unterminated string at the second lineis identified and reported. It gives the correct output of [line 2] Error: Unexpected character.\n.
+    testinteractive: This test takes '1 a', KeyboardInterrupt as input and checks to see if the interactive mode gives the correct output of TokenType.NUMBER 1 1.0 TokenType.IDENTIFIER a None TokenType.EOF  None. The unittest passes its assertequal.
+    testinteractivexit: This test takes KeyboardInterrupt as input and checks to see if the interactive mode quits when keyboard interrupt is given. It unittest passes by confirming the run function was never reached.
+    testsource: This test takes src/scanner.tempython as input and checks to see if the file-scan mode gives the correct output of TokenType.VAR var None TokenType.IDENTIFIER greeting None TokenType.EQUAL = None TokenType.STRING "hello" hello TokenType.SEMICOLON ; None TokenType.PRINT print None TokenType.IDENTIFIER greeting None TokenType.SEMICOLON ; None TokenType.NUMBER 123 123.0 TokenType.PLUS + None TokenType.NUMBER 45.67 45.67 TokenType.BANG_EQUAL != None TokenType.NUMBER 0 0.0 TokenType.SEMICOLON ; None TokenType.EOF  None with its assert equal unit test passing. 
+    testerrorcontinuation: This test takes '@','b',KeyboardInterrupt as input and checks to see if the scanner continues to take inputs after an error is present. The unittest passes with the assert_any_call('b') detecting that the request for b was reached.
+
+Known limitations or failing tests:
+    I was not able to get the test cases to run when the lab1.py file was in its own folder, so it is in the src folder.
+    None of the test cases are known to fail. Many test cases do not try to search for all possible substrings that could cause
+    errors or match keywords. They look for one and assume the behavoir matches for the rest. Many tests only test for one known
+    error and assume the behavoir is the same for the rest of the errors.
