@@ -1,0 +1,69 @@
+Default test case from textbook:
+    Expression = expression.binary(
+    expression.unary(Token(TokenType.MINUS, "-", None, 1), expression.literal(123)),
+    Token(TokenType.STAR, "*", None, 1), expression.grouping(expression.literal(45.67)))
+    
+
+Test Inputs:
+    Expression = expression.binary(
+    expression.unary(Token(TokenType.MINUS, "-", None, 1), expression.literal(1)),
+    Token(TokenType.STAR, "*", None, 1), expression.grouping(expression.literal(2)))
+    print(AstPrinter().print(Expression))
+
+    Expression = expression.binary(expression.literal(1), Token(TokenType.EQUAL_EQUAL, "==", None, 1), expression.literal(2))
+    print(AstPrinter().print(Expression))
+    Expression = expression.binary(expression.literal(1), Token(TokenType.BANG_EQUAL, "!=", None, 1), expression.literal(2))
+    print(AstPrinter().print(Expression))
+    Expression = expression.binary(expression.literal(1), Token(TokenType.GREATER, "<", None, 1), expression.literal(2))
+    print(AstPrinter().print(Expression))
+    Expression = expression.binary(expression.literal(1), Token(TokenType.GREATER_EQUAL, "<=", None, 1), expression.literal(2))
+    print(AstPrinter().print(Expression))
+    Expression = expression.binary(expression.literal(1), Token(TokenType.LESS, ">", None, 1), expression.literal(2))
+    print(AstPrinter().print(Expression))
+    Expression = expression.binary(expression.literal(1), Token(TokenType.LESS_EQUAL, ">=", None, 1), expression.literal(2))
+    print(AstPrinter().print(Expression))
+    Expression = expression.binary(expression.literal(1), Token(TokenType.PLUS, "+", None, 1), expression.literal(2))
+    print(AstPrinter().print(Expression))
+    Expression = expression.binary(expression.literal(1), Token(TokenType.MINUS, "-", None, 1), expression.literal(2))
+    print(AstPrinter().print(Expression))
+    Expression = expression.binary(expression.literal(1), Token(TokenType.STAR, "*", None, 1), expression.literal(2))
+    print(AstPrinter().print(Expression))
+    Expression = expression.binary(expression.literal(1), Token(TokenType.SLASH, "/", None, 1), expression.literal(2))
+    print(AstPrinter().print(Expression))
+    Expression = expression.binary(expression.literal("1"), Token(TokenType.SLASH, "/", None, 1), expression.literal("2"))
+    print(AstPrinter().print(Expression))
+    Expression = expression.binary(expression.literal("a"), Token(TokenType.SLASH, "/", None, 1), expression.literal("b"))
+    print(AstPrinter().print(Expression))
+    Expression = expression.binary(expression.literal("a"), Token(TokenType.SLASH, "/", None, 1), expression.literal(""))
+    print(AstPrinter().print(Expression))
+    Expression = expression.binary(expression.literal("true"), Token(TokenType.SLASH, "/", None, 1), expression.literal("false"))
+    print(AstPrinter().print(Expression))
+    Expression = expression.binary(expression.literal("true"), Token(TokenType.SLASH, "/", None, 1), expression.literal("nil"))
+    print(AstPrinter().print(Expression))
+    Expression = expression.unary(Token(TokenType.MINUS, "-", None, 1), expression.literal(1))
+    print(AstPrinter().print(Expression))
+    Expression = expression.unary(Token(TokenType.BANG, "!", None, 1), expression.literal(1))
+    print(AstPrinter().print(Expression))
+
+    Expression = expression.binary(expression.binary(expression.literal(1), Token(TokenType.STAR, "*", None, 1), expression.literal(1)), Token(TokenType.STAR, "*", None, 1), expression.literal(1))
+        print(AstPrinter().print(Expression))
+    Expression = expression.binary(expression.grouping(expression.literal(1)), Token(TokenType.STAR, "*", None, 1), expression.literal(1))
+        print(AstPrinter().print(Expression))
+    Expression = expression.binary(expression.unary(Token(TokenType.MINUS, "-", None, 1), expression.literal(1)), Token(TokenType.STAR, "*", None, 1), expression.literal(1))
+        print(AstPrinter().print(Expression))
+    Expression = expression.grouping((expression.binary(expression.literal(1), Token(TokenType.STAR, "*", None, 1), expression.literal(1))))
+        print(AstPrinter().print(Expression))
+    Expression = expression.grouping(expression.grouping(expression.literal(1)))
+        print(AstPrinter().print(Expression))
+    Expression = expression.grouping((expression.unary(Token(TokenType.MINUS, "-", None, 1), expression.literal(1))))
+       print(AstPrinter().print(Expression))
+    Expression = expression.unary(Token(TokenType.MINUS, "-", None, 1), expression.binary(expression.literal(1), Token(TokenType.STAR, "*", None, 1), expression.literal(1)))
+        print(AstPrinter().print(Expression))
+    Expression = expression.unary(Token(TokenType.MINUS, "-", None, 1), expression.grouping(expression.literal(1)))
+        print(AstPrinter().print(Expression))
+    Expression = expression.unary(Token(TokenType.MINUS, "-", None, 1), expression.unary(Token(TokenType.MINUS, "-", None, 1), expression.literal(1)))
+        print(AstPrinter().print(Expression))
+
+
+
+
