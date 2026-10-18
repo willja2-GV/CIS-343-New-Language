@@ -1,6 +1,9 @@
 import sys
 from errors import error_handling
 from scanner import scanner
+from ast_print import AstPrinter 
+from parser import Parser
+from syntax import expression as expr
 
 #basic shape of interpreter
 class Tempython:
@@ -8,8 +11,13 @@ class Tempython:
     #echo code in file and error
     def run(self, source):
         error_handling.error_present = False
-        for token in scanner(source).scanTokens():
-            print(token)
+        tokens = scanner(source).scanTokens()
+        parser = Parser(tokens)
+        expression = parser.parse()
+        if error_handling.error_present:
+            return
+        print(AstPrinter().print(expression))
+            
 
     #convert to string and call run function
     def run_file(self, path):
