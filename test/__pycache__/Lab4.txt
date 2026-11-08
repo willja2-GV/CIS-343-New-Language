@@ -1,0 +1,10 @@
+Test Inputs:
+    "one"
+    true;
+    print 2 +
+
+    4 + 2;
+    print "one";
+    print true;
+    print 1 + 2;
+    print nil;

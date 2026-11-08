@@ -3,7 +3,9 @@ from errors import error_handling
 from scanner import scanner
 from ast_print import AstPrinter 
 from parser import Parser
-from syntax import expression as expr
+from syntax import expression
+from syntax import Expr
+from interpreter import Interpreter
 
 #basic shape of interpreter
 class Tempython:
@@ -13,10 +15,12 @@ class Tempython:
         error_handling.error_present = False
         tokens = scanner(source).scanTokens()
         parser = Parser(tokens)
-        expression = parser.parse()
-        if error_handling.error_present:
+        statements = parser.parse()
+        if error_handling.error_present or error_handling.hadRuntimeError:
             return
-        print(AstPrinter().print(expression))
+        #print(AstPrinter().print(statements))
+        interpreter = Interpreter(statements)
+        interpreter.interpret(statements)
             
 
     #convert to string and call run function

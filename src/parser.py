@@ -1,12 +1,18 @@
 from tokenType import TokenType
 from errors import error_handling
-from syntax import expression as expr
-from syntax import binary, literal, unary, grouping
-
+from syntax import Expr as expr
+from syntax import binary, literal, unary, grouping, variable
+from syntax import Stmt
+from syntax import expression, Print, Var, block
+Stmt.block = block
+Stmt.Print = Print
+Stmt.expression = expression
+Stmt.Var = Var
 expr.binary = binary
 expr.unary = unary
 expr.literal = literal
 expr.grouping = grouping
+expr.variable = variable
 
 class Parser():
     class ParseError(RuntimeError):
@@ -17,7 +23,16 @@ class Parser():
         self.current = 0
 
     def expression(self):
-        return self.equality()
+        return self.assignment()
+
+    def declaration(self):
+        try:
+            if self.match(TokenType.VAR):
+                return self.vardeclaration()
+            return self.statement()
+        except self.ParseError:
+            self.synchronize()
+            return None
 
     def equality(self):
         expression = self.comparison()
@@ -67,6 +82,8 @@ class Parser():
             return expr.literal(None)
         if (self.match(TokenType.NUMBER, TokenType.STRING)):
             return expr.literal(self.previous().literal);
+        if (self.match(TokenType.IDENTIFIER)):
+            return expr.variable(self.previous())
         if (self.match(TokenType.LEFT_PAREN)):
             expression = self.expression()
             self.consume(TokenType.RIGHT_PAREN, "Expect ')' after expression.")
@@ -114,29 +131,68 @@ class Parser():
             if self.previous().type == TokenType.SEMICOLON:
                 return
             match self.peek().type:
-                        case 'CLASS':
-                            pass
-                        case 'FUN':
-                            pass
-                        case 'VAR':
-                            pass
-                        case 'FOR':
-                            pass
-                        case 'IF':
-                            pass
-                        case 'WHILE':
-                            pass
-                        case 'PRINT':
-                            pass
-                        case 'RETURN':
-                            return
+                case TokenType.CLASS:
+                    return
+                case TokenType.FUN:
+                    return
+                case TokenType.VAR:
+                    return
+                case TokenType.FOR:
+                    return
+                case TokenType.IF:
+                    return
+                case TokenType.WHILE:
+                    return
+                case TokenType.PRINT:
+                    return
+                case TokenType.RETURN:
+                    return
             self.advance()
 
     def parse(self):
-        try:
-            expression = self.expression()
-            if not self.isatend():
-                raise self.error(self.peek(), "Expected end of expression.")
-            return expression
-        except self.ParseError:
-            return None
+        statement = []
+        while not self.isatend():
+            statement.append(self.declaration())
+        return statement
+
+    def statement(self):
+        if self.match(TokenType.PRINT):
+            return self.printStatement()
+        if self.match(TokenType.LEFT_BRACE):
+            return Stmt.block(self.block([]))
+        return self.expressionStatement()
+
+    def block(self, statements):
+        while not self.check(TokenType.RIGHT_BRACE) and not self.isatend():
+            statements.append(self.declaration())
+        self.consume(TokenType.RIGHT_BRACE, "Expect '}' after block.")
+        return statements
+
+    def printStatement(self):
+        value = self.expression()
+        self.consume(TokenType.SEMICOLON, "Expect ';' after expression.")
+        return Stmt.Print(value)    
+
+    def vardeclaration(self):
+        name = self.consume(TokenType.IDENTIFIER, "Expect variable name.")
+        initializer = None
+        if self.match(TokenType.EQUAL):
+            initializer = self.expression()
+        self.consume(TokenType.SEMICOLON, "Expect ';' after variable declaration.")
+        return Stmt.Var(name, initializer)
+
+    def expressionStatement(self):
+        expressions = self.expression()
+        self.consume(TokenType.SEMICOLON, "Expect ';' after expression.")
+        return Stmt.expression(expressions)
+
+    def assignment(self):
+        expression = self.equality()
+        if self.match(TokenType.EQUAL):
+            equals = self.previous()
+            value = self.assignment()
+            if isinstance(expression, expr.variable):
+                name = expr.variable.name
+                return expr.assign(name, value)
+            self.error(equals, "Invalid assignment target.")
+        return expression

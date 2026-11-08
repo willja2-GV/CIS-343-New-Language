@@ -5,6 +5,7 @@ from tempython_token import Token
 #framework for handling error.
 class error_handling:
     error_present = False
+    hadRuntimeError = False
     @staticmethod
     def error(line, message):
         error_handling.report(line, "", message)
@@ -20,3 +21,8 @@ class error_handling:
             error_handling.report(token.line, " at end", message)
         else:
             error_handling.report(token.line, f" at '{token.lexeme}'", message)
+
+    @staticmethod
+    def runtimeError(error):
+        print(error.getMessage() + "\n[line " + error.token.line + "]")
+        error_handling.hadRuntimeError = True

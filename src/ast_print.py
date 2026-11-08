@@ -1,6 +1,6 @@
 from tokenType import TokenType
 from tempython_token import Token
-from syntax import expression, binary, literal, unary, grouping
+from syntax import Expr, binary, literal, unary, grouping
 
 
 class AstPrinter():
@@ -32,12 +32,12 @@ class AstPrinter():
         return result
 
 def main():
-    expression.binary = binary
-    expression.unary = unary
-    expression.literal = literal
-    expression.grouping = grouping
+    Expr.binary = binary
+    Expr.unary = unary
+    Expr.literal = literal
+    Expr.grouping = grouping
 
-    Expression = expression.unary(Token(TokenType.MINUS, "-", None, 1), expression.unary(Token(TokenType.MINUS, "-", None, 1), expression.literal(1)))
+    Expression = Expr.unary(Token(TokenType.MINUS, "-", None, 1), Expr.unary(Token(TokenType.MINUS, "-", None, 1), Expr.literal(1)))
 
     print(AstPrinter().print(Expression))
 
